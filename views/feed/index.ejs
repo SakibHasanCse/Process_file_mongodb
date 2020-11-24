@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%=title%></title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <style></style>
+  <body>
+
+
+    <div class="container pt-5 pb-5">
+        <div class="text-center">
+            <h3>Upload Image Application</h3>
+            <p>you can upload your image and any file ,you can delete this file </p>
+        </div>
+
+      <div class="custom-file p-5">
+        <h6>Drop Your file</h6>
+        <form action="/post" method="POST" enctype="multipart/form-data">
+          <input
+            type="file"
+            name="myFile"
+            class="custom-file-input"
+            id="validatedCustomFile"
+            required
+          />
+          <label class="custom-file-label" for="validatedCustomFile"
+            >Choose file...</label
+          >
+          <div class="invalid-feedback">
+            Example invalid custom file feedback
+          </div>
+          <button type="submit" class="btn btn-success">Upload file</button>
+        </form>
+      </div>
+    </div>
+    <hr />
+    <div class="div"></div>
+    <% if(result) {%>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-12 m-auto">
+          <%for(let file of result){ %>
+          <div class="card card-body mb-3">
+            <% if(file.isImage){ %>
+            <img
+              style="
+                object-fit: cover;
+                object-position: center;
+                width: 100%;
+                max-height: 600px;
+              "
+              src="image/<%=file.filename %> "
+              alt="Card image top"
+            />
+
+            <% }else{ %>
+
+            <p class="card-text">
+                <%=file.filename%></p>
+            <% } %>
+            <form action="/post/delete/<%=file._id%>?_method=DELETE" method="POST">
+              <button class="btn btn-danger btn-block mt-4">Remove</button>
+            </form>
+          </div>
+
+          <% } %>
+        </div>
+      </div>
+    </div>
+    <% } %>
+  </body>
+</html>
